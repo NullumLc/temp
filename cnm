@@ -1,1 +1,20 @@
-傻逼吧你
+import urllib.parse
+import base64
+import zlib
+
+# 载荷中的原始数据字符串
+encoded_string = "7Ztdb9owFIbv%2bRVZJ9armNjOZ2k7QUaL%2bRYO2nqFUnBFNQaMptP272cnNFuTsBbSskg1iATZzvGxn/ccX3A4fdfoecS7UsrK1A98hV5Rr9FVjlaz1UmlcnM7D9i6MlkufrB1AK79O2bqKltMllMWt96KL6ADwci7sJ4Yu0vr9/tlwKbqan27CPzrOXvevFGrbRvOGIseaCa7TAxok1x44xahXzQEcdKPKZPevap3RZw920I0VscWGLlU1efPsy0c5cbV1AoI7ZuOMCZW12nkcP9Q2%2bQObBNmL6ajg8s6xJqmJTrq5NIArX6zVk8Zcwwt4fPuLvHnbeBSvpdIQ6g93MvUv3CHqKNrmtEW4EYmCr5gDT5QzyNWE4x6xO1/aqQmgMhGYgaVDFUnScKltbFnaJoKHRuHK0L1pIkuaYselMe9cPUqRmm5C51u00kkhy1S3aBougkl7e4d6RGaTYeSehdCjAG/O/p%2bYfKyQsoLmgdlmsFYQFDjh6GWJyGE0ZfMX08EZtwNTdAYud7nLcksnwppA2UnqpCzgyDo1QadAU3vLOQZ82EHMxAi0KVcq7rzas5xD6AQoeqkYkgk02abukkJ/z%2bNvkj%2bjUy16Ba5d/S8anhBLwt44EgGkoFkIBlIBpKBZCAZSAaSgWQgGUgGkoFkIBlIBpKBZCAZSAaSgWQgGUgGxWOwW2nF7kt%2by7/Kb3ag2GUTUgBvXAAxiKxt4Is3sB4WniVrOvhwzB0CXerg5GN9esGRQv7RgQdMmMO9sIwtc/sIJUOCsY4ee7f7FIWu2Si4euKan8wg58nFsEIXxYGntgZqMog3Z2FrgPhgyzIOlsmijowqwb0jyMqMoGEbarqdOpP/iqFISMkSVFG1Z5p8f3OK%2bxAZ7gClpgUPg70rq0T2RIkcup/0newQ7NbcUXv/DPl4LL/N7hdfn2dp07pmd8v79YSdVVgwqcyWd8HC/8aOzkunf6r%2b2c8bpSxK/6uPmlf%2br/nSnyrHcduH99iqKiz7HwLxTLMgEM0QWUDjb3ji8NdHPslZmV%2bqR%2bfH56Xyxni1VGbV0m8="
+
+# 步骤 1: URL解码
+url_decoded_string = urllib.parse.unquote(encoded_string)
+
+# 步骤 2: Base64解码
+base64_decoded_bytes = base64.b64decode(url_decoded_string)
+
+# 步骤 3: zlib解压, 使用 -15 作为 wbits 参数来忽略头部
+# Using a negative wbits value tells zlib to handle the raw compressed data without expecting a zlib header.
+# This often resolves the "incorrect header check" error when dealing with streams from other libraries.
+decompressed_data = zlib.decompress(base64_decoded_bytes, -15)
+
+# 打印最终解码和解压后的数据
+print(decompressed_data.decode('utf-8'))
